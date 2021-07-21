@@ -1,0 +1,369 @@
+---
+swagger: "2.0"
+info:
+  description: "LG U+ 데모 API"
+  version: "0.0.1"
+  title: "boxoffice"
+host: "apis.felixcho.com"
+basePath: "/"
+schemes:
+- "https"
+produces:
+- "application/json"
+paths:
+  /movie/boxoffice:
+    get:
+      tags:
+      - "boxoffice"
+      summary: "주간 박스오피스 영화 목록\n"
+      description: "주간 박스 오피스 영화 목록을 추출한다. 호출 설정에 따라 상세 내역의 포함 여부가 결정된다.\n"
+      operationId: "getBoxoffice"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "isDetailRequired"
+        in: "query"
+        description: "상세 데이타를 포함하는지 여부 (y:포함, n:미포함)\n- 기본값 = n\n"
+        required: false
+        type: "string"
+        default: "n"
+      responses:
+        "200":
+          description: "success"
+          schema:
+            $ref: "#/definitions/boxoffice"
+      x-swagger-router-controller: "Boxoffice"
+definitions:
+  boxoffice:
+    type: "object"
+    properties:
+      count:
+        type: "string"
+        example: "10"
+        description: "결과 목록 갯수"
+      list:
+        type: "array"
+        description: "결과 목록"
+        items:
+          $ref: "#/definitions/movie"
+    description: "박스오피스 결과 응답"
+    example:
+      count: "10"
+      list:
+      - movieNmOg: ""
+        directors:
+        - peopleNm: "케이트 쇼트랜드"
+          peopleNmEn: "Cate Shortland"
+        - peopleNm: "케이트 쇼트랜드"
+          peopleNmEn: "Cate Shortland"
+        showTypes:
+        - showTypeNm: "디지털"
+          showTypeGroupNm: "2D"
+        - showTypeNm: "디지털"
+          showTypeGroupNm: "2D"
+        rankInten: -1
+        nations:
+        - nationNm: "한국"
+        - nationNm: "한국"
+        movieNm: "블랙 위도우"
+        movieCd: "20191951"
+        actors:
+        - peopleNm: "스칼렛 요한슨"
+          cast: "블랙 위도우"
+          castEn: "black widow"
+          peopleNmEn: "Scarlett Johansson"
+        - peopleNm: "스칼렛 요한슨"
+          cast: "블랙 위도우"
+          castEn: "black widow"
+          peopleNmEn: "Scarlett Johansson"
+        genres:
+        - genreNm: "스릴러"
+        - genreNm: "스릴러"
+        rankOldAndNew: "NEW"
+        rank: 1
+        openDt: "2021-07-07"
+        audits:
+        - auditNo: "2021-MF01558"
+          watchGradeNm: "12세이상관람가"
+        - auditNo: "2021-MF01558"
+          watchGradeNm: "12세이상관람가"
+        movieNmEn: "Black Widow"
+        staffs:
+        - peopleNm: "장윤정"
+          staffRoleNm: "배급진행"
+          peopleNmEn: ""
+        - peopleNm: "장윤정"
+          staffRoleNm: "배급진행"
+          peopleNmEn: ""
+      - movieNmOg: ""
+        directors:
+        - peopleNm: "케이트 쇼트랜드"
+          peopleNmEn: "Cate Shortland"
+        - peopleNm: "케이트 쇼트랜드"
+          peopleNmEn: "Cate Shortland"
+        showTypes:
+        - showTypeNm: "디지털"
+          showTypeGroupNm: "2D"
+        - showTypeNm: "디지털"
+          showTypeGroupNm: "2D"
+        rankInten: -1
+        nations:
+        - nationNm: "한국"
+        - nationNm: "한국"
+        movieNm: "블랙 위도우"
+        movieCd: "20191951"
+        actors:
+        - peopleNm: "스칼렛 요한슨"
+          cast: "블랙 위도우"
+          castEn: "black widow"
+          peopleNmEn: "Scarlett Johansson"
+        - peopleNm: "스칼렛 요한슨"
+          cast: "블랙 위도우"
+          castEn: "black widow"
+          peopleNmEn: "Scarlett Johansson"
+        genres:
+        - genreNm: "스릴러"
+        - genreNm: "스릴러"
+        rankOldAndNew: "NEW"
+        rank: 1
+        openDt: "2021-07-07"
+        audits:
+        - auditNo: "2021-MF01558"
+          watchGradeNm: "12세이상관람가"
+        - auditNo: "2021-MF01558"
+          watchGradeNm: "12세이상관람가"
+        movieNmEn: "Black Widow"
+        staffs:
+        - peopleNm: "장윤정"
+          staffRoleNm: "배급진행"
+          peopleNmEn: ""
+        - peopleNm: "장윤정"
+          staffRoleNm: "배급진행"
+          peopleNmEn: ""
+  movie:
+    type: "object"
+    properties:
+      rank:
+        type: "integer"
+        example: 1
+        description: "순위"
+      rankInten:
+        type: "integer"
+        example: -1
+        description: "순위 변동"
+      rankOldAndNew:
+        type: "string"
+        example: "NEW"
+        description: "신규 진입 or 기존"
+      movieCd:
+        type: "string"
+        example: "20191951"
+        description: "영화 코드 (고유번호)"
+      movieNm:
+        type: "string"
+        example: "블랙 위도우"
+        description: "영화 제목 (한글)"
+      movieNmEn:
+        type: "string"
+        example: "Black Widow"
+        description: "영화 제목 (영어)"
+      movieNmOg:
+        type: "string"
+        example: ""
+        description: "영화 제목 (원제목)"
+      openDt:
+        type: "string"
+        example: "2021-07-07"
+        description: "개봉일"
+      nations:
+        type: "array"
+        description: "제작 국가, isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/country"
+      genres:
+        type: "array"
+        description: "장르 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/genre"
+      actors:
+        type: "array"
+        description: "출연자 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/actor"
+      directors:
+        type: "array"
+        description: "감독 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/director"
+      staffs:
+        type: "array"
+        description: "스텝 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/staff"
+      showTypes:
+        type: "array"
+        description: "상영 포맷 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/showType"
+      audits:
+        type: "array"
+        description: "심의정보 isDetailRequired=y 일때 포함된다."
+        items:
+          $ref: "#/definitions/audit"
+    description: "영화"
+    example:
+      movieNmOg: ""
+      directors:
+      - peopleNm: "케이트 쇼트랜드"
+        peopleNmEn: "Cate Shortland"
+      - peopleNm: "케이트 쇼트랜드"
+        peopleNmEn: "Cate Shortland"
+      showTypes:
+      - showTypeNm: "디지털"
+        showTypeGroupNm: "2D"
+      - showTypeNm: "디지털"
+        showTypeGroupNm: "2D"
+      rankInten: -1
+      nations:
+      - nationNm: "한국"
+      - nationNm: "한국"
+      movieNm: "블랙 위도우"
+      movieCd: "20191951"
+      actors:
+      - peopleNm: "스칼렛 요한슨"
+        cast: "블랙 위도우"
+        castEn: "black widow"
+        peopleNmEn: "Scarlett Johansson"
+      - peopleNm: "스칼렛 요한슨"
+        cast: "블랙 위도우"
+        castEn: "black widow"
+        peopleNmEn: "Scarlett Johansson"
+      genres:
+      - genreNm: "스릴러"
+      - genreNm: "스릴러"
+      rankOldAndNew: "NEW"
+      rank: 1
+      openDt: "2021-07-07"
+      audits:
+      - auditNo: "2021-MF01558"
+        watchGradeNm: "12세이상관람가"
+      - auditNo: "2021-MF01558"
+        watchGradeNm: "12세이상관람가"
+      movieNmEn: "Black Widow"
+      staffs:
+      - peopleNm: "장윤정"
+        staffRoleNm: "배급진행"
+        peopleNmEn: ""
+      - peopleNm: "장윤정"
+        staffRoleNm: "배급진행"
+        peopleNmEn: ""
+  country:
+    type: "object"
+    properties:
+      nationNm:
+        type: "string"
+        example: "한국"
+        description: "국가명"
+    description: "제작 국가"
+    example:
+      nationNm: "한국"
+  genre:
+    type: "object"
+    properties:
+      genreNm:
+        type: "string"
+        example: "스릴러"
+        description: "장르 이름"
+    description: "장르"
+    example:
+      genreNm: "스릴러"
+  actor:
+    type: "object"
+    properties:
+      peopleNm:
+        type: "string"
+        example: "스칼렛 요한슨"
+        description: "한글 이름"
+      peopleNmEn:
+        type: "string"
+        example: "Scarlett Johansson"
+        description: "원어 이름"
+      cast:
+        type: "string"
+        example: "블랙 위도우"
+        description: "배역 한글 이름"
+      castEn:
+        type: "string"
+        example: "black widow"
+        description: "배역 원어 이름"
+    description: "배우"
+    example:
+      peopleNm: "스칼렛 요한슨"
+      cast: "블랙 위도우"
+      castEn: "black widow"
+      peopleNmEn: "Scarlett Johansson"
+  director:
+    type: "object"
+    properties:
+      peopleNm:
+        type: "string"
+        example: "케이트 쇼트랜드"
+        description: "한글 이름"
+      peopleNmEn:
+        type: "string"
+        example: "Cate Shortland"
+        description: "원어 이름"
+    description: "감독"
+    example:
+      peopleNm: "케이트 쇼트랜드"
+      peopleNmEn: "Cate Shortland"
+  showType:
+    type: "object"
+    properties:
+      showTypeGroupNm:
+        type: "string"
+        example: "2D"
+        description: "상영 포멧 그룹 이름"
+      showTypeNm:
+        type: "string"
+        example: "디지털"
+        description: "상영 포멧 이름"
+    description: "상영 포멧"
+    example:
+      showTypeNm: "디지털"
+      showTypeGroupNm: "2D"
+  audit:
+    type: "object"
+    properties:
+      auditNo:
+        type: "string"
+        example: "2021-MF01558"
+        description: "심의 번호"
+      watchGradeNm:
+        type: "string"
+        example: "12세이상관람가"
+        description: "심의 등급"
+    description: "심의 정보"
+    example:
+      auditNo: "2021-MF01558"
+      watchGradeNm: "12세이상관람가"
+  staff:
+    type: "object"
+    properties:
+      peopleNm:
+        type: "string"
+        example: "장윤정"
+        description: "한글 이름"
+      peopleNmEn:
+        type: "string"
+        example: ""
+        description: "원어 이름"
+      staffRoleNm:
+        type: "string"
+        example: "배급진행"
+        description: "담당 업무"
+    description: "스탭 정보"
+    example:
+      peopleNm: "장윤정"
+      staffRoleNm: "배급진행"
+      peopleNmEn: ""
