@@ -7,6 +7,42 @@ const mongoConnectionCollection = 'boxoffice-combined';
 const client = new MongoClient(mongoConnectionString);
 let db;
 let collection;
+let mapper = require('jsonpathmap');
+
+const _myTargetStructure = {
+    count: '#[*]',
+    list: [
+        {
+            rank: '$[*].rank',
+            rankInten: '$[*].rankInten',
+            movieCd: '$[*].movieCd',
+            movieNm: '$[*].movieNm',
+            movieNmEn: '$[*].movieNmEn',
+            openDt: '$[*].openDt'
+        }
+    ]
+};
+
+const _myTargetStructureWithDetail = {
+    count: '#[*]',
+    list: [
+        {
+            rank: '$[*].rank',
+            rankInten: '$[*].rankInten',
+            movieCd: '$[*].movieCd',
+            movieNm: '$[*].movieNm',
+            movieNmEn: '$[*].movieNmEn',
+            openDt: '$[*].openDt',
+            nations: '$[*].nations',
+            genres: '$[*].genres',
+            actors: '$[*].actors',
+            directors: '$[*].directors',
+            staffs: '$[*].staffs',
+            showTypes: '$[*].showTypes',
+            audits: '$[*].audits'
+        }
+    ]
+};
 
 const projectionNoDetail = {
     _id: 0,
@@ -63,34 +99,15 @@ async function getItem(projection)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function mapItem(isDetailRequired, sourceData)
 {
-    let returnObject = {
-        count: sourceData.length.toString(),
-        list: []
-    }
-    sourceData.forEach(element =>
-    {
-        let myData = {
-            rank: element['rank'],
-            rankInten: element['rankInten'],
-            rankOldAndNew: element['rankOldAndNew'],
-            movieCd: element['movieCd'],
-            movieNm: element['movieNm'],
-            movieNmEn: element['movieNmEn'],
-            movieNmOg: element['movieNmOg'],
-            openDt: element['openDt'],
-        };
-        if (isDetailRequired === 'y')
-        {
-            myData.nations = element['nations'];
-            myData.genres = element['genres'];
-            myData.actors = element['actors'];
-            myData.directors = element['directors'];
-            myData.staffs = element['staffs'];
-            myData.showTypes = element['showTypes'];
-            myData.audits = element['audits'];
-        }
-        returnObject.list.push(myData);
-    });
+    let resultObj;
 
-    return returnObject;
+    if(isDetailRequired === 'y')
+    {
+        resultObj = mapper.engine.jsonpathmap(_myTargetStructureWithDetail, sourceData);
+    }
+    else
+    {
+        resultObj = mapper.engine.jsonpathmap(_myTargetStructure, sourceData);
+    }
+    return resultObj;
 }
