@@ -59,6 +59,10 @@ const projectionNoDetail = {
 const projectionDetail = {
     _id: 0
 }
+
+const query = {};
+const sort = {rank: 1};
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 exports.init = function ()
 {
@@ -84,16 +88,16 @@ exports.getBoxoffice = function (isDetailRequired)
     return new Promise(async function (resolve, reject)
     {
         let projection = ((isDetailRequired === 'y') ? projectionDetail : projectionNoDetail);
-        let resultObject = await getItem(projection); // MongoDB Query
+        let resultObject = await getItem(query, sort, projection); // MongoDB Query
         let response = mapItem(isDetailRequired, resultObject); // Map response
         resolve(response);
     });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-async function getItem(projection)
+async function getItem(query, sort, projection)
 {
-    return await collection.find({}).sort({rank: 1}).project(projection).toArray();
+    return await collection.find(query).sort(sort).project(projection).toArray();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
