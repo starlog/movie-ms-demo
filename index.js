@@ -38,6 +38,7 @@ swaggerTools.initializeMiddleware(swaggerDoc, function (middleware)
     // Serve the Swagger documents and Swagger UI
     app.use(middleware.swaggerUi());
 
+    // Customized place
     initTarget.init() //Modified code
         .then(function (response)
         {
